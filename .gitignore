@@ -1,0 +1,8 @@
+log/
+.venv/
+.idea/
+logs/
+.env
+*.http
+*.pyc
+*.log

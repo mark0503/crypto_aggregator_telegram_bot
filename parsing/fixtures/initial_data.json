@@ -1,0 +1,60 @@
+[
+    {
+        "model": "parsing.CryptoCurrency",
+        "pk": 1,
+        "fields": {
+            "name": "USDT",
+            "short_name": "tether"
+        }
+    },
+    {
+        "model": "parsing.CryptoCurrency",
+        "pk": 2,
+        "fields": {
+            "name": "BTC",
+            "short_name": "bitcoin"
+        }
+    },
+    {
+        "model": "parsing.CryptoCurrency",
+        "pk": 3,
+        "fields": {
+            "name": "ETH",
+            "short_name": "ethereum"
+        }
+    },
+    {
+        "model": "parsing.TradingPlace",
+        "pk": 1,
+        "fields": {
+            "name": "BestChange",
+            "short_name": "BestChange",
+            "url": "https://fssp.gov.ru/iss/ip/"
+        }
+    },
+    {
+        "model": "parsing.Bank",
+        "pk": 1,
+        "fields": {
+            "name": "Тинькофф Банк",
+            "short_name": "tinkoff",
+            "url": "https://fssp.gov.ru/iss/ip/"
+        }
+    }, {
+        "model": "parsing.Bank",
+        "pk": 2,
+        "fields": {
+            "name": "СберБанк",
+            "short_name": "sberbank",
+            "url": "https://fssp.gov.ru/iss/ip/"
+        }
+    }, {
+        "model": "parsing.Bank",
+        "pk": 3,
+        "fields": {
+            "name": "Альфа Банк",
+            "short_name": "alfaclick",
+            "url": "https://fssp.gov.ru/iss/ip/"
+        }
+    }
+]
