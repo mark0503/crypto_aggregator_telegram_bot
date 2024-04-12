@@ -6,7 +6,7 @@ services:
     image: postgres:13.0-alpine
     restart: unless-stopped
     volumes:
-      - postgres_data:/var/lib/postвяresql/data/
+      - postgres_data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: scraper_crypto
       POSTGRES_USER: postgres
