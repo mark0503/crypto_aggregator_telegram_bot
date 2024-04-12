@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+
+  postgres:
+    image: postgres:13.0-alpine
+    restart: unless-stopped
+    volumes:
+      - postgres_data:/var/lib/postвяresql/data/
+    environment:
+      POSTGRES_DB: scraper_crypto
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+
+  redis:
+    restart: unless-stopped
+    image: redis:7.0.5-alpine
+    expose:
+      - 6379
+
+  server:
+    image: "crypto_aggregator_telegram_bot:${IMG_TAG:-base}"
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - .:/usr/src/app/
+    expose:
+      - 8000
+    ports:
+      - "8000:8000"
+    environment:
+      DJANGO_SETTINGS_MODULE: crypto_aggregator_telegram_bot.settings
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+      DB_HOST: postgres
+      DB_NAME: scraper_crypto
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+
+  celery:
+    image: "crypto_aggregator_telegram_bot:${IMG_TAG:-base}"
+    command: /usr/local/bin/celery -A crypto_aggregator_telegram_bot worker -Q crypto_aggregator
+    environment:
+      CELERY_BROKER_URL: "redis://redis:6379/0"
+      CELERY_RESULT_BACKEND: "redis://redis:6379/0"
+      DB_HOST: postgres
+      DB_NAME: scraper_crypto
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+     - .:/usr/crypto_aggregator_telegram_bot
+
+  celery_beat:
+    image: "crypto_aggregator_telegram_bot:${IMG_TAG:-base}"
+    command: /usr/local/bin/celery -A crypto_aggregator_telegram_bot beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+    user: root
+    depends_on:
+      - redis
+    environment:
+      DB_HOST: postgres
+      DB_NAME: scraper_crypto
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    volumes:
+      - .:/usr/crypto_aggregator_telegram_bot
+
+  migrate:
+    image: "crypto_aggregator_telegram_bot:${IMG_TAG:-base}"
+    command: python manage.py migrate
+    user: root
+    environment:
+      DB_HOST: postgres
+      DB_NAME: scraper_crypto
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    depends_on:
+      - postgres
+    volumes:
+      - .:/usr/crypto_aggregator_telegram_bot
+
+volumes:
+  postgres_data:

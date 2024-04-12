@@ -17,6 +17,18 @@ python manage.py loaddata initial_data
 
 ## Run
 
+### Run with docker:
+```shell
+docker-compose build
+docker-compose up
+```
+
+### Run without docker:
+Run server:
+```shell
+python manage.py runserver 
+```
+
 ## Aggregator
 
 Start celery beat process:

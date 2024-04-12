@@ -1,7 +1,7 @@
 from collections import namedtuple
 from typing import List, Union
 
-from parsing.models import TradingPlace, CryptoCurrency, OrderType, Bank, Order
+from parsing.models import TradingPlace, CryptoCurrency, Bank, Order
 
 OrderInfo = namedtuple(
     'OrderInfo',
