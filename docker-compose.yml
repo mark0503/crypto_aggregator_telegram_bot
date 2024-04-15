@@ -89,5 +89,12 @@ services:
     volumes:
       - .:/usr/crypto_aggregator_telegram_bot
 
+  set_webhook:
+    image: "crypto_aggregator_telegram_bot:${IMG_TAG:-base}"
+    command: python manage.py set_webhook_telegram_bot
+    user: root
+    volumes:
+      - .:/usr/crypto_aggregator_telegram_bot
+
 volumes:
   postgres_data:
